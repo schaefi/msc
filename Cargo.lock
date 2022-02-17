@@ -24,7 +24,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d9b39be18770d11421cdb1b9947a45dd3f37e93092cbf377614828a319d5fee8"
 dependencies = [
  "hermit-abi",
- "libc",
+ "libc 0.2.118",
  "winapi",
 ]
 
@@ -43,7 +43,7 @@ dependencies = [
  "addr2line",
  "cc",
  "cfg-if",
- "libc",
+ "libc 0.2.118",
  "miniz_oxide",
  "object",
  "rustc-demangle",
@@ -128,7 +128,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "194a7a9e6de53fa55116934067c844d9d749312f75c6f6d0980e8c252f8c2146"
 dependencies = [
  "core-foundation-sys",
- "libc",
+ "libc 0.2.118",
 ]
 
 [[package]]
@@ -278,7 +278,7 @@ version = "0.1.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "62b467343b94ba476dcb2500d242dadbb39557df889310ac77c5d99100aaac33"
 dependencies = [
- "libc",
+ "libc 0.2.118",
 ]
 
 [[package]]
@@ -420,6 +420,12 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "libc"
+version = "0.1.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e32a70cf75e5846d53a673923498228bbec6a8624708a9ea5645f075d6276122"
+
+[[package]]
+name = "libc"
 version = "0.2.118"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "06e509672465a0504304aa87f9f176f2b2b716ed8fb105ebe5c02dc6dce96a94"
@@ -485,7 +491,7 @@ version = "0.7.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8067b404fe97c70829f082dec8bcf4f71225d7eaea1d8645349cb76fa06205cc"
 dependencies = [
- "libc",
+ "libc 0.2.118",
  "log",
  "miow",
  "ntapi",
@@ -510,6 +516,7 @@ dependencies = [
  "http-auth-basic",
  "minidom",
  "reqwest",
+ "rpassword",
  "text_io",
  "tokio",
 ]
@@ -521,7 +528,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "48ba9f7719b5a0f42f338907614285fb5fd70e53858141f69898a1fb7203b24d"
 dependencies = [
  "lazy_static",
- "libc",
+ "libc 0.2.118",
  "log",
  "openssl",
  "openssl-probe",
@@ -548,7 +555,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "19e64526ebdee182341572e50e9ad03965aa510cd94427a4549448f285e957a1"
 dependencies = [
  "hermit-abi",
- "libc",
+ "libc 0.2.118",
 ]
 
 [[package]]
@@ -575,7 +582,7 @@ dependencies = [
  "bitflags",
  "cfg-if",
  "foreign-types",
- "libc",
+ "libc 0.2.118",
  "once_cell",
  "openssl-sys",
 ]
@@ -594,7 +601,7 @@ checksum = "7e46109c383602735fa0a2e48dd2b7c892b048e1bf69e5c3b1d804b7d9c203cb"
 dependencies = [
  "autocfg",
  "cc",
- "libc",
+ "libc 0.2.118",
  "pkg-config",
  "vcpkg",
 ]
@@ -627,7 +634,7 @@ checksum = "d76e8e1493bcac0d2766c42737f34458f1c8c50c0d23bcb24ea953affb273216"
 dependencies = [
  "cfg-if",
  "instant",
- "libc",
+ "libc 0.2.118",
  "redox_syscall",
  "smallvec",
  "winapi",
@@ -763,6 +770,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "rpassword"
+version = "0.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0a9dde63c78217c24d7f16dc1d60aac012124ba29d7bfa71bda532d4de668f44"
+dependencies = [
+ "libc 0.1.12",
+ "termios",
+]
+
+[[package]]
 name = "rustc-demangle"
 version = "0.1.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -799,7 +816,7 @@ dependencies = [
  "bitflags",
  "core-foundation",
  "core-foundation-sys",
- "libc",
+ "libc 0.2.118",
  "security-framework-sys",
 ]
 
@@ -810,7 +827,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0160a13a177a45bfb43ce71c01580998474f556ad854dcbca936dd2841a5c556"
 dependencies = [
  "core-foundation-sys",
- "libc",
+ "libc 0.2.118",
 ]
 
 [[package]]
@@ -848,7 +865,7 @@ version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e51e73328dc4ac0c7ccbda3a494dfa03df1de2f46018127f60c693f2648455b0"
 dependencies = [
- "libc",
+ "libc 0.2.118",
 ]
 
 [[package]]
@@ -869,7 +886,7 @@ version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "66d72b759436ae32898a2af0a14218dbf55efde3feeb170eb623637db85ee1e0"
 dependencies = [
- "libc",
+ "libc 0.2.118",
  "winapi",
 ]
 
@@ -898,7 +915,7 @@ checksum = "5cdb1ef4eaeeaddc8fbd371e5017057064af0911902ef36b39801f67cc6d79e4"
 dependencies = [
  "cfg-if",
  "fastrand",
- "libc",
+ "libc 0.2.118",
  "redox_syscall",
  "remove_dir_all",
  "winapi",
@@ -911,6 +928,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2dfed899f0eb03f32ee8c6a0aabdb8a7949659e3466561fc0adf54e26d88c5f4"
 dependencies = [
  "winapi-util",
+]
+
+[[package]]
+name = "termios"
+version = "0.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "75071a31761781a74d091387713756966a74ce60eea99a093a5ab3f2cccac3fe"
+dependencies = [
+ "libc 0.1.12",
 ]
 
 [[package]]
@@ -947,7 +973,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0c27a64b625de6d309e8c57716ba93021dccf1b3b5c97edd6d3dd2d2135afc0a"
 dependencies = [
  "bytes",
- "libc",
+ "libc 0.2.118",
  "memchr",
  "mio",
  "num_cpus",
