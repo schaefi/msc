@@ -1,0 +1,16 @@
+[package]
+name = "msc"
+version = "0.1.0"
+authors = ["Marcus Schäfer <marcus.schaefer@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+minidom = { version = "0.13.0" }
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1", features = ["full"] }
+text_io = { version = "0.1.9" }
+clap = { version = "3.0.14", features = ["derive"] }
+http-auth-basic = { version = "0.3.1" }
+error-chain = { version = "0.12.4" }
