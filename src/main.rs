@@ -1,20 +1,13 @@
 use http_auth_basic::Credentials;
-use error_chain::error_chain;
 use minidom::Element;
 use rpassword::read_password;
 use std::io::Write;
+use std::io::{Error, ErrorKind};
 
 mod cli;
 
-error_chain! {
-    foreign_links {
-        Io(std::io::Error);
-        HttpRequest(reqwest::Error);
-    }
-}
-
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut args = cli::parse_args();
 
     // read access credentials from stdin if not
@@ -28,40 +21,29 @@ async fn main() -> Result<()> {
         _ => (),
     }
 
-    println!("Hi {:?}", args.password.as_deref());
-
-    // https://api.opensuse.org/source/Virtualization:Appliances:Images:Testing_x86:leap/test-image-luks?expand=1
-
-    let url;
+    // operate on provided sub command
     match &args.command {
+        // checkout...
         cli::Commands::Checkout { package } => {
-            url = build_source_endpoint_url(
+            let url = build_source_endpoint_url(
                 &args.api_server, &args.project, Some(package), true
             );
+            let response_xml_root = get_xml_response(
+                &args.user, args.password.as_ref().unwrap(), &url
+            ).await?;
+
+            // TODO
+            println!("{:?}", response_xml_root);
         },
-        // TODO: handle other sub commands
-        _ => { url = String::new() },
+
+        // get-binaries...
+        cli::Commands::GetBinaries { package, dist, arch, profile } => {
+            let url = build_source_endpoint_url(
+                &args.api_server, &args.project, Some(package), true
+            );
+            println!("{} {} {} {} {:?}", url, package, dist, arch, profile.as_deref());
+        },
     }
-
-    // FIXME: url should not be empty
-    assert_eq!(url.is_empty(), false);
-
-    println!("{}", url);
-
-    let response_text = send_get_request(
-        &args.user, args.password.as_ref().unwrap(), &url
-    ).await?;
-
-    // FIXME: handling of auth errors 401, and other that causes html response
-    println!("{}", response_text);
-
-    let mut xml = String::new();
-    xml.push_str("<response xmlns=\"directory\">");
-    xml.push_str(&response_text);
-    xml.push_str("</response>");
-     
-    let root: Element = xml.parse().unwrap();
-    println!("{:?}", root);
 
     Ok(())
 }
@@ -84,9 +66,9 @@ fn build_source_endpoint_url(
     url
 }
 
-async fn send_get_request(
+async fn get_xml_response(
     user: &String, password: &String, url: &String
-) -> Result<String> {
+) -> Result<Element, Box<dyn std::error::Error>> {
     /*!
     Send GET request to the API server and return
     an XML Element root object
@@ -102,6 +84,35 @@ async fn send_get_request(
         .send()
         .await?;
 
+    match res.status() {
+        reqwest::StatusCode::BAD_REQUEST => {
+            let request_error = format!(
+                "content-length:{:?} server:{:?}",
+                res.headers().get(reqwest::header::CONTENT_LENGTH),
+                res.headers().get(reqwest::header::SERVER),
+            );
+            return Err(
+                Box::new(Error::new(ErrorKind::InvalidData, request_error))
+            )
+        },
+        status => {
+            let request_status = format!("{}", status);
+            if request_status != "200 OK" {
+                return Err(
+                    Box::new(Error::new(ErrorKind::Other, request_status))
+                )
+            }
+        },
+    }
+
     let response_content = res.text().await?;
-    Ok(response_content)
+
+    let mut xml = String::new();
+    xml.push_str("<response xmlns=\"directory\">");
+    xml.push_str(&response_content);
+    xml.push_str("</response>");
+
+    let root: Element = xml.parse().unwrap();
+
+    Ok(root)
 }
