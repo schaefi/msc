@@ -55,6 +55,9 @@ pub async fn get_text(
 pub async fn fetch_file(
     response: reqwest::Response, url: &String, filepath: &String
 ) -> Result<(), Box<dyn std::error::Error>> {
+    /*!
+    Download file from response
+    !*/
     let total_size = response
         .content_length()
         .ok_or(format!("Failed to get content length from '{}'", &url))?;
