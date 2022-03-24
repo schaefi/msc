@@ -14,7 +14,8 @@ pub async fn checkout(
     connect: Obs, args: Checkout, outdir: &String
 ) -> Result<(), Box<dyn std::error::Error>> {
     let url = build_source_endpoint_url(
-        &connect.api_server, &connect.project, Some(&args.package), true
+        &connect.api_server, &connect.project, Some(&args.package),
+        args.expand
     );
     let response = send_request(
         &connect.user, &connect.password, &url
