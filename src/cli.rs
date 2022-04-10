@@ -41,6 +41,9 @@ pub enum Commands {
         /// Architecture name
         arch: String,
 
+        /// Output directory, will be created if not present
+        outdir: String,
+
         /// Multibuild profile name
         #[clap(long)]
         profile: Option<String>,
@@ -48,6 +51,9 @@ pub enum Commands {
     Checkout {
         /// Package or image name
         package: String,
+
+        /// Output directory, will be created if not present
+        outdir: String,
     },
 }
 

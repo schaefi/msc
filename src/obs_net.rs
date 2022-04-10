@@ -53,14 +53,15 @@ pub async fn get_text(
 }
 
 pub async fn fetch_file(
-    response: reqwest::Response, url: &String, filepath: &String
+    response: reqwest::Response, filepath: &String
 ) -> Result<(), Box<dyn std::error::Error>> {
     /*!
     Download file from response
     !*/
+    let url = &format!("{}", response.url());
     let total_size = response
         .content_length()
-        .ok_or(format!("Failed to get content length from '{}'", &url))?;
+        .ok_or(format!("Failed to get content length from '{}'", url))?;
     let progress = ProgressBar::new(total_size);
 
     progress.set_style(ProgressStyle::default_bar()
@@ -78,7 +79,7 @@ pub async fn fetch_file(
             )
         )
         .progress_chars("#>-"));
-    progress.set_message(&format!("Downloading {}", url));
+    progress.set_message(&format!("Downloading {}", filepath));
 
     let mut file = File::create(filepath)?;
     let mut downloaded: u64 = 0;
@@ -92,7 +93,7 @@ pub async fn fetch_file(
         progress.set_position(new);
     }
     progress.finish_with_message(
-        &format!("Downloaded {} to {}", url, filepath)
+        &format!("Downloaded {}", filepath)
     );
     return Ok(());
 }

@@ -31,17 +31,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
     match &args.command {
         // checkout...
-        cli::Commands::Checkout { package } => {
+        cli::Commands::Checkout { package, outdir } => {
             obs_checkout::checkout(
                 connect, obs_checkout::Checkout{
                     package: String::from(package),
                     expand: true
-                }, &String::from("outdir")
+                }, &String::from(outdir)
             ).await?;
         },
 
         // get-binaries...
-        cli::Commands::GetBinaries { package, dist, arch, profile } => {
+        cli::Commands::GetBinaries { package, dist, arch, profile, outdir } => {
             obs_getbinaries::getbinaries(
                 connect, obs_getbinaries::GetBinaries{
                     package: String::from(package),
@@ -49,7 +49,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     arch: String::from(arch),
                     profile: String::from(profile.as_deref().unwrap()),
                     expand: true
-                }, &String::from("outdir")
+                }, &String::from(outdir)
             ).await?;
         },
     }
