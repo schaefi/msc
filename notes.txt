@@ -1,0 +1,5 @@
+cargo run -- \
+    --api-server https://api.opensuse.org \
+    --project Virtualization:Appliances:Images:Testing_x86:tumbleweed \
+    --user marcus.schaefer \
+checkout test-image-luks foo
